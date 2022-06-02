@@ -57,11 +57,11 @@ struct ContentView: View {
                     }
                     
                     ForEach(0..<3) { number in
-                        Button(action: {
+                        Button {
                             flagTapped(number)
                             countryName = countries[number]
-                        }) {
-                            GuessTheFlag.FlagImage(name: countries[number])
+                        } label: {
+                            FlagImage(name: countries[number])
                         }
                     }
                 }
