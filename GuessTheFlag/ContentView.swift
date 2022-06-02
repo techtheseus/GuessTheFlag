@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+struct FlagImage: View {
+    var name: String
+
+    var body: some View {
+        Image(name)
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+            .shadow(color: .black, radius: 1)
+    }
+}
+
 struct ContentView: View {
     
     @State private var showingScore = false
@@ -16,8 +28,6 @@ struct ContentView: View {
     @State private var countryName = ""
     @State private var streak = 0
     @State private var freshStart = false
-
-        
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
@@ -47,14 +57,11 @@ struct ContentView: View {
                     }
                     
                     ForEach(0..<3) { number in
-                        Button {
+                        Button(action: {
                             flagTapped(number)
                             countryName = countries[number]
-                        } label: {
-                            Image(countries[number])
-                                .renderingMode(.original)
-                                .clipShape(Capsule())
-                                .shadow(radius: 5)
+                        }) {
+                            GuessTheFlag.FlagImage(name: countries[number])
                         }
                     }
                 }
