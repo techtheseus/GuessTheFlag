@@ -104,7 +104,7 @@ struct ContentView: View {
     func flagTapped(_ number: Int) {
         
         if number == correctAnswer && streak < 7 {
-            scoreTitle = "Correct"
+            scoreTitle = "Correct 🎉"
             currentScore += 1
             streak += 1
             showingScore = true
