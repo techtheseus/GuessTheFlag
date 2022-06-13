@@ -28,7 +28,11 @@ struct ContentView: View {
     @State private var countryName = ""
     @State private var streak = 0
     @State private var freshStart = false
-    
+    @State private var selectedFlag = -1
+    @State private var rotationDegree = 0.0
+    @State private var opacityAmount = 1.0
+    @State private var animationAmount = 1.0
+
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0...2)
     
@@ -60,9 +64,23 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                             countryName = countries[number]
+                            selectedFlag = number
+                            withAnimation {
+                                rotationDegree += 360
+                              }
+                            withAnimation {
+                                opacityAmount = 0.25
+                            }
+                            withAnimation {
+                                animationAmount -= 0.5
+                            }
                         } label: {
                             FlagImage(name: countries[number])
                         }
+                        .rotation3DEffect((.degrees(selectedFlag == number ? rotationDegree : 0.0)), axis: (x: 0, y: 1, z: 0))
+                        .opacity((selectedFlag != number) ? opacityAmount : 1.0)
+                        .scaleEffect((selectedFlag != number) ? animationAmount : 1.0)
+                        
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -124,11 +142,19 @@ struct ContentView: View {
         correctAnswer = Int.random(in: 0...2)
         currentScore = 0
         streak = 0
+        selectedFlag = -1
+        rotationDegree = 0.0
+        opacityAmount = 1.0
+        animationAmount = 1.0
     }
     
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
+        selectedFlag = -1
+        rotationDegree = 0.0
+        opacityAmount = 1.0
+        animationAmount = 1.0
     }
 }
 
